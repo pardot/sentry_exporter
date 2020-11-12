@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -49,6 +50,12 @@ func probeHTTP(target string, w http.ResponseWriter, module Module) (success boo
 			continue
 		}
 		request.Header.Set(key, value)
+	}
+
+	// Set the sentry Bearer Auth token from the ENV var
+	authToken, ok := os.LookupEnv("AUTH_TOKEN")
+	if ok {
+		request.Header.Set("Authorization", authToken)
 	}
 
 	resp, err := client.Do(request)
