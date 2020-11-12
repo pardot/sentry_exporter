@@ -53,8 +53,8 @@ func probeHTTP(target string, w http.ResponseWriter, module Module) (success boo
 	}
 
 	// Set the sentry Bearer Auth token from the ENV var
-	authToken, present := os.LookupEnv("AUTH_TOKEN")
-	if present {
+	authToken, ok := os.LookupEnv("AUTH_TOKEN")
+	if ok {
 		request.Header.Set("Authorization", authToken)
 	}
 
